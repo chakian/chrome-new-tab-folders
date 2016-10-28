@@ -1,6 +1,32 @@
 <html>
-	<head></head>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<style>
+			.row {
+				margin:0 15px;
+			}
+			.item {
+				width:23%;
+				height:150px;
+				text-align:center;
+				margin:13px;
+				display: table;
+			}
+			.item span{
+				vertical-align: middle;
+				display: table-cell;
+			}
+		</style>
+	</head>
 	<body>
-		New tab
+		<div class="panel panel-default">
+			<div class="panel-body">Simple new tab page</div>
+		</div>
+		<div class="row">
+			<div class="item col-md-3 bg-warning"><span>Test 1</span></div>
+			<div class="item col-md-3 bg-warning"><span>Test 2</span></div>
+			<div class="item col-md-3 bg-warning"><span>Test 3</span></div>
+			<div class="item col-md-3 bg-warning"><span>Test 4</span></div>
+		</div>
 	</body>
 </html>
