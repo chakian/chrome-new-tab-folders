@@ -1,10 +1,10 @@
 {
-	"name": "Foldered Bookmarks",
-	"description": "",
-	"version": "1.0.0",
+	"name": "Simple New Tab Page",
+	"description": "A very simple new tab page",
+	"version": "0.0.1",
 	"manifest_version": 2,
 	"icons": {
 		"128": "icon128.png"
 	},
-	"chrome_url_overrides" : { "newtab": "folderthing.html" }
+	"chrome_url_overrides" : { "newtab": "simplenewtab.html" }
 }
