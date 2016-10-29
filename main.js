@@ -7,9 +7,9 @@ function addItem(name, desc, url) {
 	var itemUrl = url;
 
 	// Check that there's some code there.
-	if (!itemName && !itemUrl) {
-		//message('Error: Empty name or url'); //message function doesn't work. skip for now
-		return;
+	if (!itemName || !itemUrl) {
+		alert('Error: Empty name or url');
+		return false;
 	}
 
 	var newItem = {'name' : itemName, 'desc' : itemDescription, 'url' : itemUrl};
@@ -23,6 +23,7 @@ function addItem(name, desc, url) {
 	chrome.storage.sync.set({'items': tabItems }, function() {
 		console.log('saved data', newItem);
     });
+	return true;
 }
 
 function getItems(){
@@ -50,7 +51,7 @@ function addRow(rowIndex){
 }
 function addItemDiv(rowIndex, tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
-	allItemsDiv.children('.itemRow' + rowIndex + '').append('<a href="' + tabItem.url + '"><div class="item col-md-3 bg-warning"><span>' + text + '</span></div></a>');
+	allItemsDiv.children('.itemRow' + rowIndex + '').append('<a href="' + tabItem.url + '"><div class="itemBox col-md-3 bg-warning" draggable="true"><span>' + text + '</span></div></a>');
 }
 
 $(document).ready(function() {
@@ -68,7 +69,8 @@ $(document).ready(function() {
 	  var name = $("#itemName").val();
 		var desc = $("#itemDesc").val();
 		var url = $("#itemUrl").val();
-	  addItem(name, desc, url);
-	  $(this).prev().click();
+	  if(addItem(name, desc, url)){
+			$(this).prev().click();
+		}
 	});
 });
