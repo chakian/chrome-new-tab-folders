@@ -1,5 +1,5 @@
 var tabItems;
-var allItemsDiv;
+var allItemsUl;
 
 function addItem(name, desc, url) {
 	var itemName = name;
@@ -17,6 +17,7 @@ function addItem(name, desc, url) {
 		tabItems = [newItem];
 	}else{
 		tabItems.push(newItem);
+		addItemLi(newItem);
 	}
 
 	// Save it using the Chrome extension storage API.
@@ -36,27 +37,20 @@ function getItems(){
 function fillPage(){
 	if(tabItems != undefined && tabItems != null && tabItems.length > 0){
 		console.log(tabItems[0].name);
-		var rowIndex = 0;
 		for(i=0; i<tabItems.length; i++){
-			if(i%4 == 0){
-				rowIndex = Math.floor(i/4);
-				addRow(rowIndex);
-			}
-			addItemDiv(rowIndex, tabItems[i]);
+			addItemLi(tabItems[i]);
 		}
 	}
 }
-function addRow(rowIndex){
-	allItemsDiv.append('<div class="row itemRow' + rowIndex + '"></div>');
-}
-function addItemDiv(rowIndex, tabItem){
+
+function addItemLi(tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
-	allItemsDiv.children('.itemRow' + rowIndex + '').append('<a href="' + tabItem.url + '"><div class="itemBox col-md-3 bg-warning" draggable="true"><span>' + text + '</span></div></a>');
+	allItemsUl.append('<li class="col-md-3 bg-warning"><div class="itemBox"><span><a href="' + tabItem.url + '">' + text + '</a></span></div></li>');
 }
 
 $(document).ready(function() {
 	//initialize global variables
-	allItemsDiv = $('#allItems');
+	allItemsUl = $('#allItems');
 	tabItems = [];
 	//call initializing functions
   getItems();
@@ -73,4 +67,7 @@ $(document).ready(function() {
 			$(this).prev().click();
 		}
 	});
+
+	$( "#allItems" ).sortable();
+  $( "#allItems" ).disableSelection();
 });

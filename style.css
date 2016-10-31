@@ -1,7 +1,3 @@
-.row {
-  margin:0 15px;
-}
-
 [draggable] {
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -10,7 +6,7 @@
 }
 
 .itemBox {
-  width:23%;
+  width:100%;
   height:150px;
   text-align:center;
   margin:13px;
@@ -22,3 +18,6 @@
   vertical-align: middle;
   display: table-cell;
 }
+
+#allItems { list-style-type: none; margin: 0; padding: 0; }
+#allItems li { margin: 3px 3px 3px 0; padding: 1px; float: left; font-size: 4em; text-align: center; }
