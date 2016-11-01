@@ -66,7 +66,7 @@ function deleteItem(deleteId){
 	chrome.storage.sync.set({'items': tabItems }, function() {
 		console.log('deleted data', itemToDelete);
   });
-	$('#itemX_'+ indexOfItemToDelete +'').remove();
+	$('#itemX_'+ deleteId +'').remove();
 }
 
 function orderItems(){
@@ -134,6 +134,9 @@ $(document).ready(function() {
 		var url = $("#itemUrl").val();
 	  if(addItem(name, desc, url)){
 			$(this).prev().click();
+			$("#itemName").val('');
+			$("#itemDesc").val('');
+			$("#itemUrl").val('');
 		}
 	});
 
