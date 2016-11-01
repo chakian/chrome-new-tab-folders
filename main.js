@@ -95,7 +95,7 @@ function fillPage(){
 function addItemLi(tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
 	var itemHtml = '';
-	itemHtml += '<li class="col-md-3 bg-warning" id="itemX_'+ tabItem.id +'">';
+	itemHtml += '<li class="col-md-2 bg-warning" id="itemX_'+ tabItem.id +'">';
 	itemHtml += '	<div class="wrapper">';
 	itemHtml += '		<input type="hidden" name="itemId" value="' + tabItem.id + '">';
 	itemHtml += '		<input type="hidden" name="itemOrder" value="' + tabItem.order + '">';
@@ -142,4 +142,29 @@ $(document).ready(function() {
 
 	$( "#allItems" ).sortable();
   $( "#allItems" ).disableSelection();
+
+	$('#allItems').droppable(
+	{
+    //accept: '#draggable',
+    drop: function(event, ui)
+    {
+      //ui.helper.data('dropped', true);
+			alert('stop: dropped=');
+      // awesome code that works and handles successful drops...
+    }
+	});
+
+	/*$('#allItems li').draggable(
+	{
+	  revert: false,
+	  start: function(event, ui) {
+	    ui.helper.data('dropped', false);
+	  },
+	  stop: function(event, ui)
+	  {
+	    alert('stop: dropped=' + ui.helper.data('dropped'));
+	    // Check value of ui.helper.data('dropped') and handle accordingly...
+	  }
+	});*/
+
 });
