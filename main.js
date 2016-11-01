@@ -1,10 +1,31 @@
 var tabItems;
 var allItemsUl;
 
+var lastItemId, lastItemOrderId;
+
+function findLatestIdAndOrder(){
+	lastItemId = -1;
+	lastItemOrderId = -1;
+	if(tabItems != undefined){
+		for(var i = 0; i<tabItems.length; i++){
+			if(tabItems[i].id > lastItemId){
+				lastItemId = tabItems[i].id;
+			}
+			if(tabItems[i].order > lastItemOrderId){
+				lastItemOrderId = tabItems[i].order;
+			}
+		}
+	}
+}
+
 function addItem(name, desc, url) {
 	var itemName = name;
 	var itemDescription = desc;
 	var itemUrl = url;
+
+	findLatestIdAndOrder();
+	var itemId = lastItemId + 1;
+	var itemOrder = lastItemOrderId + 1;
 
 	// Check that there's some code there.
 	if (!itemName || !itemUrl) {
@@ -12,13 +33,17 @@ function addItem(name, desc, url) {
 		return false;
 	}
 
-	var newItem = {'name' : itemName, 'desc' : itemDescription, 'url' : itemUrl};
+	if(!itemUrl.startsWith('http')){
+		itemUrl = 'http://' + itemUrl;
+	}
+
+	var newItem = {'name' : itemName, 'desc' : itemDescription, 'url' : itemUrl, 'id' : itemId, 'order' : itemOrder};
 	if(tabItems == undefined){
 		tabItems = [newItem];
 	}else{
 		tabItems.push(newItem);
-		addItemLi(newItem);
 	}
+	addItemLi(newItem);
 
 	// Save it using the Chrome extension storage API.
 	chrome.storage.sync.set({'items': tabItems }, function() {
@@ -27,9 +52,33 @@ function addItem(name, desc, url) {
 	return true;
 }
 
+function deleteItem(deleteId){
+	var itemToDelete;
+	for(var i=0;i<tabItems.length; i++){
+		if(tabItems[i].id == deleteId){
+			itemToDelete = tabItems[i];
+			break;
+		}
+	}
+	var indexOfItemToDelete = tabItems.indexOf(itemToDelete);
+	tabItems.splice(indexOfItemToDelete, 1);
+	// Save it using the Chrome extension storage API.
+	chrome.storage.sync.set({'items': tabItems }, function() {
+		console.log('deleted data', itemToDelete);
+  });
+	$('#itemX_'+ indexOfItemToDelete +'').remove();
+}
+
+function orderItems(){
+	if(tabItems != undefined && tabItems.length > 1){
+		quickSort(tabItems, 0, tabItems.length - 1);
+	}
+}
+
 function getItems(){
 	chrome.storage.sync.get('items', function(data) {
 		tabItems = data.items;
+		//orderItems();
 		fillPage();
 	});
 }
@@ -45,10 +94,30 @@ function fillPage(){
 
 function addItemLi(tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
-	allItemsUl.append('<li class="col-md-3 bg-warning"><div class="itemBox"><span><a href="' + tabItem.url + '">' + text + '</a></span></div></li>');
+	var itemHtml = '';
+	itemHtml += '<li class="col-md-3 bg-warning" id="itemX_'+ tabItem.id +'">';
+	itemHtml += '	<div class="wrapper">';
+	itemHtml += '		<input type="hidden" name="itemId" value="' + tabItem.id + '">';
+	itemHtml += '		<input type="hidden" name="itemOrder" value="' + tabItem.order + '">';
+	itemHtml += '		<a href="' + tabItem.url + '">';
+	itemHtml += '			<div class="itemBox">';
+	itemHtml += '				<span>' + text + '</span>';
+	itemHtml += '			</div>';
+	itemHtml += '		</a>';
+	itemHtml += '		<a href="#" class="close">X</a>';
+	itemHtml += '	</div>';
+	itemHtml += '</li>';
+	allItemsUl.append(itemHtml);
+	$('#itemX_' + tabItem.id + '').click(function(){
+		deleteItem(tabItem.id);
+	});
 }
 
 $(document).ready(function() {
+	//for test purposes
+	//chrome.storage.sync.clear();
+
+
 	//initialize global variables
 	allItemsUl = $('#allItems');
 	tabItems = [];

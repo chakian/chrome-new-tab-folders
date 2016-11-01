@@ -19,5 +19,19 @@
   display: table-cell;
 }
 
+.wrapper{
+  position: relative;
+  width: 100%;
+}
+.wrapper .close{
+  position: absolute;
+  width: 30px;
+  height: 26px;
+  background-color: #003333;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
+
 #allItems { list-style-type: none; margin: 0; padding: 0; }
 #allItems li { margin: 3px 3px 3px 0; padding: 1px; float: left; font-size: 4em; text-align: center; }
