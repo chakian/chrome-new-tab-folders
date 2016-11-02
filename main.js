@@ -1,5 +1,5 @@
 var tabItems;
-var allItemsUl;
+var allItemsDiv;
 
 var lastItemId, lastItemOrderId;
 
@@ -43,12 +43,9 @@ function addItem(name, desc, url) {
 	}else{
 		tabItems.push(newItem);
 	}
-	addItemLi(newItem);
+	addItemDiv(newItem);
 
-	// Save it using the Chrome extension storage API.
-	chrome.storage.sync.set({'items': tabItems }, function() {
-		console.log('saved data', newItem);
-    });
+	updateChromeStorage();
 	return true;
 }
 
@@ -62,11 +59,19 @@ function deleteItem(deleteId){
 	}
 	var indexOfItemToDelete = tabItems.indexOf(itemToDelete);
 	tabItems.splice(indexOfItemToDelete, 1);
-	// Save it using the Chrome extension storage API.
-	chrome.storage.sync.set({'items': tabItems }, function() {
-		console.log('deleted data', itemToDelete);
-  });
+
+	updateChromeStorage();
+
 	$('#itemX_'+ deleteId +'').remove();
+}
+
+function changeOrderOfItem(itemId, orderValue){
+	for(var i=0;i<tabItems.length; i++){
+		if(tabItems[i].id == itemId){
+			itemToUpdate = tabItems[i].order = orderValue;
+			break;
+		}
+	}
 }
 
 function orderItems(){
@@ -87,30 +92,34 @@ function fillPage(){
 	if(tabItems != undefined && tabItems != null && tabItems.length > 0){
 		console.log(tabItems[0].name);
 		for(i=0; i<tabItems.length; i++){
-			addItemLi(tabItems[i]);
+			addItemDiv(tabItems[i]);
 		}
 	}
 }
 
-function addItemLi(tabItem){
+function addItemDiv(tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
 	var itemHtml = '';
-	itemHtml += '<li class="col-md-2 bg-warning" id="itemX_'+ tabItem.id +'">';
-	itemHtml += '	<div class="wrapper">';
-	itemHtml += '		<input type="hidden" name="itemId" value="' + tabItem.id + '">';
-	itemHtml += '		<input type="hidden" name="itemOrder" value="' + tabItem.order + '">';
-	itemHtml += '		<a href="' + tabItem.url + '">';
-	itemHtml += '			<div class="itemBox">';
-	itemHtml += '				<span>' + text + '</span>';
-	itemHtml += '			</div>';
-	itemHtml += '		</a>';
-	itemHtml += '		<a href="#" class="close">X</a>';
-	itemHtml += '	</div>';
-	itemHtml += '</li>';
-	allItemsUl.append(itemHtml);
+	itemHtml += '<div class="col-md-2 bg-warning itemDiv" id="itemX_'+ tabItem.id +'">';
+	itemHtml += '	<input type="hidden" name="itemId" value="' + tabItem.id + '">';
+	itemHtml += '	<input type="hidden" name="itemOrder" value="' + tabItem.order + '">';
+	itemHtml += '	<a href="' + tabItem.url + '">';
+	itemHtml += '		<div class="itemBox">';
+	itemHtml += '			<span>' + text + '</span>';
+	itemHtml += '		</div>';
+	itemHtml += '	</a>';
+	itemHtml += '	<a href="#" class="close">X</a>';
+	itemHtml += '</div>';
+	allItemsDiv.append(itemHtml);
 	$('#itemX_' + tabItem.id + '').click(function(){
 		deleteItem(tabItem.id);
 	});
+}
+
+function updateChromeStorage(){
+	chrome.storage.sync.set({'items': tabItems }, function() {
+		console.log('updated data');
+  });
 }
 
 $(document).ready(function() {
@@ -119,7 +128,7 @@ $(document).ready(function() {
 
 
 	//initialize global variables
-	allItemsUl = $('#allItems');
+	allItemsDiv = $('#allItems');
 	tabItems = [];
 	//call initializing functions
   getItems();
@@ -140,31 +149,18 @@ $(document).ready(function() {
 		}
 	});
 
-	$( "#allItems" ).sortable();
-  $( "#allItems" ).disableSelection();
-
-	$('#allItems').droppable(
-	{
-    //accept: '#draggable',
-    drop: function(event, ui)
-    {
-      //ui.helper.data('dropped', true);
-			alert('stop: dropped=');
-      // awesome code that works and handles successful drops...
-    }
+	Sortable.create(allItems, {
+		animation: 150,
+		onEnd: function (evt) {
+			var orderIndex = 0;
+			$(".itemDiv").each(function(i) {
+				var currentId = this.children.namedItem('itemId').value;
+				this.children.namedItem('itemOrder').value = orderIndex;
+				changeOrderOfItem(currentId, orderIndex);
+				orderIndex++;
+			});
+			updateChromeStorage();
+		}
 	});
-
-	/*$('#allItems li').draggable(
-	{
-	  revert: false,
-	  start: function(event, ui) {
-	    ui.helper.data('dropped', false);
-	  },
-	  stop: function(event, ui)
-	  {
-	    alert('stop: dropped=' + ui.helper.data('dropped'));
-	    // Check value of ui.helper.data('dropped') and handle accordingly...
-	  }
-	});*/
 
 });

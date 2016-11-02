@@ -12,18 +12,15 @@
   margin:13px;
   display: table;
   font-size: 25px;
-  /*cursor: move;*/
 }
 .itemBox span{
   vertical-align: middle;
   display: table-cell;
 }
 
-.wrapper{
-  position: relative;
-  width: 100%;
-}
-.wrapper .close{
+.itemDiv { /*margin: 3px 3px 3px 0;*/position: relative; padding: 1px; float: left; text-align: center; cursor: move; }
+
+.itemDiv .close{
   position: absolute;
   width: 30px;
   height: 26px;
@@ -32,6 +29,3 @@
   right: 2px;
   z-index: 100;
 }
-
-#allItems { list-style-type: none; margin: 0; padding: 0; }
-#allItems li { margin: 3px 3px 3px 0; padding: 1px; float: left; font-size: 4em; text-align: center; }
