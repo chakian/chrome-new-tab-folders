@@ -100,7 +100,7 @@ function fillPage(){
 function addItemDiv(tabItem){
 	var text = tabItem.name + (tabItem.desc != null && tabItem.desc != '' ? '<br />' + tabItem.desc : '');
 	var itemHtml = '';
-	itemHtml += '<div class="col-md-2 bg-warning itemDiv" id="itemX_'+ tabItem.id +'">';
+	itemHtml += '<div class="col-md-2 itemDiv" id="itemX_'+ tabItem.id +'">';
 	itemHtml += '	<input type="hidden" name="itemId" value="' + tabItem.id + '">';
 	itemHtml += '	<input type="hidden" name="itemOrder" value="' + tabItem.order + '">';
 	itemHtml += '	<a href="' + tabItem.url + '">';
