@@ -83,7 +83,7 @@ function orderItems(){
 function getItems(){
 	chrome.storage.sync.get('items', function(data) {
 		tabItems = data.items;
-		//orderItems();
+		orderItems();
 		fillPage();
 	});
 }

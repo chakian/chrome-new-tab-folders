@@ -1,7 +1,7 @@
 function quickSort(items, lo, hi){
 	var pivot;
 	if(lo < hi){
-		pivot = sortPartition(items, lo, pivot);
+		pivot = sortPartition(items, lo, hi);
 		quickSort(items, lo, pivot);
 		quickSort(items, pivot + 1, hi);
 	}
@@ -26,8 +26,8 @@ function sortPartition(items, lo, hi){
 		}
 
 		//swap items
-		var temp = items[i].order;
-		items[j].order = items[i].order;
-		items[i].order = temp;
+		var temp = items[i];
+		items[i] = items[j];
+		items[j] = temp;
 	}
 }
