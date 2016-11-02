@@ -7,17 +7,41 @@
 
 .itemBox {
   width:100%;
-  height:150px;
+  height:100px;
   text-align:center;
-  margin:13px;
   display: table;
   font-size: 25px;
-  /*cursor: move;*/
 }
 .itemBox span{
   vertical-align: middle;
   display: table-cell;
 }
 
-#allItems { list-style-type: none; margin: 0; padding: 0; }
-#allItems li { margin: 3px 3px 3px 0; padding: 1px; float: left; font-size: 4em; text-align: center; }
+.itemDiv {
+  background-color: #337ab7;
+  margin: 30px;
+  position: relative;
+  padding: 5px;
+  float: left;
+  text-align: center;
+  cursor: move;
+}
+
+.itemDiv a{
+  text-decoration: none;
+  color: #000;
+}
+.itemDiv a:hover{
+  text-decoration: none;
+  color: #FFF;
+}
+
+.itemDiv .close{
+  position: absolute;
+  width: 30px;
+  height: 26px;
+  background-color: #003333;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
