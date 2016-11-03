@@ -49,30 +49,40 @@ function addItem(name, desc, url, type) {
 	var itemId = lastItemId + 1;
 	var itemOrder = lastItemOrderId + 1;
 
-	// Check that there's some code there.
-	if (!name || !url) {
-		alert('Error: Empty name or url');
-		return false;
-	}
-
-	if(!url.startsWith('http')){
+	if(type == 'link' && !url.startsWith('http')){
 		url = 'http://' + url;
 	}
 
 	var newItem = {'name' : name, 'desc' : desc, 'url' : url, 'id' : itemId, 'order' : itemOrder, 'type' : type};
+  if(newItem.type == 'folder'){
+    newItem.subItems = [];
+  }
+
 	if(tabItems == undefined){
 		tabItems = [newItem];
 	}else{
 		tabItems.push(newItem);
 	}
+
 	addItemDiv(newItem);
 
 	updateChromeStorage();
-	return true;
+
+  return true;
 }
 
 function addLinkItem(name, desc, url){
+  // Check that there's something written in these.
+	if (!name || !url) {
+		alert('Error: Empty name or url');
+		return false;
+	}
+
   return addItem(name, desc, url, 'link');
+}
+
+function addFolderItem(name, desc){
+  return addItem(name, desc, '', 'folder');
 }
 
 function deleteItem(deleteId){

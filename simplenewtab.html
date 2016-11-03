@@ -14,20 +14,24 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addLinkModal">
 				  Add Item
+				</button>
+				&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addFolderModal">
+				  Add Folder
 				</button>
 			</div>
 		</div>
 		<div id="allItems" class="row">
 		</div>
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<!-- Add Link Modal -->
+		<div class="modal fade" id="addLinkModal" tabindex="-1" role="dialog" aria-labelledby="addLinkModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Add item</h4>
+		        <h4 class="modal-title" id="addLinkModalLabel">Add item</h4>
 		      </div>
 		      <div class="modal-body">
 		        <div class="row">
@@ -46,6 +50,31 @@
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		        <button id="addItemButton" type="button" class="btn btn-primary">Add</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Add Folder Modal -->
+		<div class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="addFolderModalLabel">Add folder</h4>
+		      </div>
+		      <div class="modal-body">
+		        <div class="row">
+							<div class="col-md-4">Name</div>
+							<div class="col-md-8"><input type="text" id="folderName" name="folderName" /></div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">Description (optional)</div>
+							<div class="col-md-8"><input type="text" id="folderDesc" name="folderDesc" /></div>
+						</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button id="addFolderButton" type="button" class="btn btn-primary">Add</button>
 		      </div>
 		    </div>
 		  </div>

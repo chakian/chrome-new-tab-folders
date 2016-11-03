@@ -5,19 +5,23 @@
     user-select: none;
 }
 
-.itemBox {
+.itemDiv .itemBox, .subItemDiv .itemBox {
   width:100%;
   height:100px;
   text-align:center;
   display: table;
   font-size: 25px;
 }
+.subItemDiv .itemBox{
+  font-size: 15px;
+}
+
 .itemBox span{
   vertical-align: middle;
   display: table-cell;
 }
 
-.itemDiv {
+.itemDiv, .subItemDiv {
   background-color: #337ab7;
   margin: 30px;
   position: relative;
@@ -27,16 +31,16 @@
   cursor: move;
 }
 
-.itemDiv a{
+.itemDiv a, .subItemDiv a{
   text-decoration: none;
   color: #000;
 }
-.itemDiv a:hover{
+.itemDiv a:hover, .subItemDiv a:hover{
   text-decoration: none;
   color: #FFF;
 }
 
-.itemDiv .close{
+.itemDiv .close, .subItemDiv .close{
   position: absolute;
   width: 30px;
   height: 26px;
